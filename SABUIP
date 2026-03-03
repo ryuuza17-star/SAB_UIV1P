@@ -1,0 +1,796 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local LoadingFrame = Instance.new("Frame")
+local LoadingText = Instance.new("TextLabel")
+local LoadingBar = Instance.new("Frame")
+local BarCorner = Instance.new("UICorner")
+local Frame = Instance.new("Frame")
+local Frame_2 = Instance.new("Frame")
+local TextLabel = Instance.new("TextLabel")
+local ToggleSwitch = Instance.new("Frame")
+local ToggleKnob = Instance.new("Frame")
+local ToggleButton = Instance.new("TextButton")
+local Frame_3 = Instance.new("Frame")
+local TextLabel_2 = Instance.new("TextLabel")
+local ToggleSwitch_2 = Instance.new("Frame")
+local ToggleKnob_2 = Instance.new("Frame")
+local ToggleButton_2 = Instance.new("TextButton")
+local TextLabel_3 = Instance.new("TextLabel")
+local TextButton = Instance.new("TextButton")
+local TextButton_2 = Instance.new("TextButton")
+local Frame_4 = Instance.new("Frame")
+local TextLabel_4 = Instance.new("TextLabel")
+local ToggleSwitch_3 = Instance.new("Frame")
+local ToggleKnob_3 = Instance.new("Frame")
+local ToggleButton_3 = Instance.new("TextButton")
+local TextLabel_5 = Instance.new("TextLabel")
+local ToggleLoadingFrame = Instance.new("Frame")
+local ToggleLoadingText = Instance.new("TextLabel")
+local ToggleLoadingBar = Instance.new("Frame")
+local ToggleLoadingBarCorner = Instance.new("UICorner")
+
+-- Properties:
+
+-- Maghintay para sa PlayerGui
+local player = game:GetService("Players").LocalPlayer
+local tweenService = game:GetService("TweenService")
+local userInputService = game:GetService("UserInputService")
+
+-- Create ScreenGui with highest display settings
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+ScreenGui.Name = "DarkZScript"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.DisplayOrder = 999999
+ScreenGui.Enabled = true
+ScreenGui.IgnoreGuiInset = true
+
+-- ========== TOGGLE LOADING SCREEN (for activation) ==========
+ToggleLoadingFrame.Parent = ScreenGui
+ToggleLoadingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)  -- White background
+ToggleLoadingFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleLoadingFrame.BorderSizePixel = 0
+ToggleLoadingFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
+ToggleLoadingFrame.Size = UDim2.new(0, 300, 0, 150)
+ToggleLoadingFrame.Style = Enum.FrameStyle.RobloxRound
+ToggleLoadingFrame.BackgroundTransparency = 1
+ToggleLoadingFrame.Visible = false
+ToggleLoadingFrame.ZIndex = 200
+
+-- Round corners for toggle loading frame
+local toggleLoadingCorner = Instance.new("UICorner")
+toggleLoadingCorner.CornerRadius = UDim.new(0, 15)
+toggleLoadingCorner.Parent = ToggleLoadingFrame
+
+-- Toggle Loading Text
+ToggleLoadingText.Parent = ToggleLoadingFrame
+ToggleLoadingText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleLoadingText.BackgroundTransparency = 1
+ToggleLoadingText.Size = UDim2.new(1, 0, 0.4, 0)
+ToggleLoadingText.Position = UDim2.new(0, 0, 0.2, 0)
+ToggleLoadingText.Font = Enum.Font.Unknown
+ToggleLoadingText.Text = "Activating Feature..."
+ToggleLoadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleLoadingText.TextSize = 20.000
+ToggleLoadingText.TextTransparency = 1
+ToggleLoadingText.TextXAlignment = Enum.TextXAlignment.Center
+ToggleLoadingText.ZIndex = 201
+
+-- Toggle Loading Bar Background
+local toggleBarBg = Instance.new("Frame")
+toggleBarBg.Parent = ToggleLoadingFrame
+toggleBarBg.BackgroundColor3 = Color3.fromRGB(203, 203, 203)  -- Gray background
+toggleBarBg.BorderSizePixel = 0
+toggleBarBg.Size = UDim2.new(0.8, 0, 0, 4)
+toggleBarBg.Position = UDim2.new(0.1, 0, 0.6, 0)
+toggleBarBg.BackgroundTransparency = 1
+toggleBarBg.ZIndex = 201
+
+local toggleBarBgCorner = Instance.new("UICorner")
+toggleBarBgCorner.CornerRadius = UDim.new(1, 0)
+toggleBarBgCorner.Parent = toggleBarBg
+
+-- Toggle Loading Bar (GREEN)
+ToggleLoadingBar.Parent = toggleBarBg
+ToggleLoadingBar.BackgroundColor3 = Color3.fromRGB(76, 175, 80)  -- Bright Green
+ToggleLoadingBar.BorderSizePixel = 0
+ToggleLoadingBar.Size = UDim2.new(0, 0, 1, 0)
+ToggleLoadingBar.Position = UDim2.new(0, 0, 0, 0)
+ToggleLoadingBar.ZIndex = 202
+ToggleLoadingBar.Visible = true
+
+ToggleLoadingBarCorner.CornerRadius = UDim.new(1, 0)
+ToggleLoadingBarCorner.Parent = ToggleLoadingBar
+
+-- ========== LOADING SCREEN (initial) - 2 MINUTES with EASING ==========
+LoadingFrame.Parent = ScreenGui
+LoadingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LoadingFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LoadingFrame.BorderSizePixel = 0
+LoadingFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
+LoadingFrame.Size = UDim2.new(0, 300, 0, 150)
+LoadingFrame.Style = Enum.FrameStyle.RobloxRound
+LoadingFrame.BackgroundTransparency = 1
+LoadingFrame.Visible = true
+LoadingFrame.ZIndex = 100
+
+-- Round corners for loading frame
+local loadingCorner = Instance.new("UICorner")
+loadingCorner.CornerRadius = UDim.new(0, 15)
+loadingCorner.Parent = LoadingFrame
+
+-- Loading Text
+LoadingText.Parent = LoadingFrame
+LoadingText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LoadingText.BackgroundTransparency = 1
+LoadingText.Size = UDim2.new(1, 0, 0.4, 0)
+LoadingText.Position = UDim2.new(0, 0, 0.2, 0)
+LoadingText.Font = Enum.Font.Unknown
+LoadingText.Text = "D A R K Z  S C R I P T"
+LoadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
+LoadingText.TextSize = 20.000
+LoadingText.TextTransparency = 1
+LoadingText.TextXAlignment = Enum.TextXAlignment.Center
+LoadingText.ZIndex = 101
+
+-- Loading Bar Background (Gray)
+local barBg = Instance.new("Frame")
+barBg.Parent = LoadingFrame
+barBg.BackgroundColor3 = Color3.fromRGB(203, 203, 203)  -- Gray background
+barBg.BorderSizePixel = 0
+barBg.Size = UDim2.new(0.8, 0, 0, 4)
+barBg.Position = UDim2.new(0.1, 0, 0.6, 0)
+barBg.BackgroundTransparency = 1
+barBg.ZIndex = 101
+
+local barBgCorner = Instance.new("UICorner")
+barBgCorner.CornerRadius = UDim.new(1, 0)
+barBgCorner.Parent = barBg
+
+-- Loading Bar (GREEN)
+LoadingBar.Parent = barBg
+LoadingBar.BackgroundColor3 = Color3.fromRGB(76, 175, 80)  -- Bright Green
+LoadingBar.BorderSizePixel = 0
+LoadingBar.Size = UDim2.new(0, 0, 1, 0)
+LoadingBar.Position = UDim2.new(0, 0, 0, 0)
+LoadingBar.ZIndex = 102
+LoadingBar.Visible = true
+
+BarCorner.CornerRadius = UDim.new(1, 0)
+BarCorner.Parent = LoadingBar
+
+-- ========== ACCURATE CLICK NAVIGATION FUNCTION ==========
+local function createClickEffect(button, clickX, clickY)
+	-- Get the exact click position relative to the ScreenGui
+	local viewportSize = ScreenGui.AbsoluteSize
+
+	-- Convert click position to UDim2 scale
+	local relativeX = clickX / viewportSize.X
+	local relativeY = clickY / viewportSize.Y
+
+	-- Create a bilog na click effect sa exact position ng click
+	local clickEffect = Instance.new("Frame")
+	clickEffect.Parent = ScreenGui
+	clickEffect.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	clickEffect.BackgroundTransparency = 0.3
+	clickEffect.BorderSizePixel = 0
+	clickEffect.Position = UDim2.new(relativeX, -15, relativeY, -15)  -- 30/2 = 15
+	clickEffect.Size = UDim2.new(0, 30, 0, 30)  -- 30x30
+	clickEffect.ZIndex = 9999
+	clickEffect.Visible = true
+
+	-- Gawing bilog
+	local effectCorner = Instance.new("UICorner")
+	effectCorner.CornerRadius = UDim.new(1, 0)  -- Perfect circle
+	effectCorner.Parent = clickEffect
+
+	-- Animate the click effect
+	local fadeOut = tweenService:Create(
+		clickEffect,
+		TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+		{
+			BackgroundTransparency = 1,
+			Size = UDim2.new(0, 50, 0, 50),
+			Position = UDim2.new(relativeX, -25, relativeY, -25)
+		}
+	)
+
+	fadeOut:Play()
+	fadeOut.Completed:Connect(function()
+		clickEffect:Destroy()
+	end)
+end
+
+-- ========== MAIN UI (CENTERED) ==========
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.5, -167, 0.5, -125)
+Frame.Size = UDim2.new(0, 335, 0, 250)
+Frame.Style = Enum.FrameStyle.RobloxRound
+Frame.Active = true
+Frame.Draggable = true
+Frame.Selectable = true
+Frame.Visible = false
+Frame.ZIndex = 50
+
+-- Freeze Trade Section
+Frame_2.Parent = Frame
+Frame_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame_2.BorderSizePixel = 0
+Frame_2.Position = UDim2.new(0.164, 0, 0.3, 0)
+Frame_2.Size = UDim2.new(0, 225, 0, 44)
+Frame_2.Style = Enum.FrameStyle.DropShadow
+Frame_2.ZIndex = 51
+
+TextLabel.Parent = Frame_2
+TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BackgroundTransparency = 1
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 3
+TextLabel.Position = UDim2.new(0.023, 0, 0, 0)
+TextLabel.Size = UDim2.new(0, 90, 1, 0)
+TextLabel.Font = Enum.Font.Fantasy
+TextLabel.Text = "❄ Freeze Trade"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextSize = 14.000
+TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+TextLabel.TextTransparency = 0
+TextLabel.ZIndex = 52
+
+-- Toggle Switch
+local TOGGLE_X_POSITION = 0.58
+
+ToggleSwitch.Parent = Frame_2
+ToggleSwitch.BackgroundColor3 = Color3.fromRGB(169, 169, 169)  -- Gray (OFF)
+ToggleSwitch.BorderSizePixel = 0
+ToggleSwitch.Position = UDim2.new(TOGGLE_X_POSITION, 0, 0.5, -12)
+ToggleSwitch.Size = UDim2.new(0, 60, 0, 24)
+ToggleSwitch.ZIndex = 52
+
+local switchCorner = Instance.new("UICorner")
+switchCorner.CornerRadius = UDim.new(0, 12)
+switchCorner.Parent = ToggleSwitch
+
+ToggleKnob.Parent = ToggleSwitch
+ToggleKnob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleKnob.BorderSizePixel = 0
+ToggleKnob.Size = UDim2.new(0, 22, 0, 22)
+ToggleKnob.Position = UDim2.new(0.05, 0, 0.5, -11)
+ToggleKnob.ZIndex = 53
+
+local knobCorner = Instance.new("UICorner")
+knobCorner.CornerRadius = UDim.new(1, 0)
+knobCorner.Parent = ToggleKnob
+
+ToggleButton.Parent = Frame_2
+ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.BackgroundTransparency = 1
+ToggleButton.BorderSizePixel = 0
+ToggleButton.Position = UDim2.new(TOGGLE_X_POSITION, 0, 0.5, -12)
+ToggleButton.Size = UDim2.new(0, 60, 0, 24)
+ToggleButton.Text = ""
+ToggleButton.AutoButtonColor = false
+ToggleButton.ZIndex = 54
+
+-- Auto Ready Section
+Frame_3.Parent = Frame
+Frame_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame_3.BorderSizePixel = 0
+Frame_3.Position = UDim2.new(0.161, 0, 0.516, 0)
+Frame_3.Size = UDim2.new(0, 227, 0, 44)
+Frame_3.Style = Enum.FrameStyle.DropShadow
+Frame_3.ZIndex = 51
+
+TextLabel_2.Parent = Frame_3
+TextLabel_2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_2.BackgroundTransparency = 1
+TextLabel_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_2.BorderSizePixel = 3
+TextLabel_2.Position = UDim2.new(0.042, 0, 0, 0)
+TextLabel_2.Size = UDim2.new(0, 89, 1, 0)
+TextLabel_2.Font = Enum.Font.Fantasy
+TextLabel_2.Text = "👍 Auto Ready"
+TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_2.TextSize = 14.000
+TextLabel_2.TextXAlignment = Enum.TextXAlignment.Left
+TextLabel_2.TextTransparency = 0
+TextLabel_2.ZIndex = 52
+
+ToggleSwitch_2.Parent = Frame_3
+ToggleSwitch_2.BackgroundColor3 = Color3.fromRGB(169, 169, 169)
+ToggleSwitch_2.BorderSizePixel = 0
+ToggleSwitch_2.Position = UDim2.new(TOGGLE_X_POSITION, 0, 0.5, -12)
+ToggleSwitch_2.Size = UDim2.new(0, 60, 0, 24)
+ToggleSwitch_2.ZIndex = 52
+
+local switchCorner2 = Instance.new("UICorner")
+switchCorner2.CornerRadius = UDim.new(0, 12)
+switchCorner2.Parent = ToggleSwitch_2
+
+ToggleKnob_2.Parent = ToggleSwitch_2
+ToggleKnob_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleKnob_2.BorderSizePixel = 0
+ToggleKnob_2.Size = UDim2.new(0, 22, 0, 22)
+ToggleKnob_2.Position = UDim2.new(0.05, 0, 0.5, -11)
+ToggleKnob_2.ZIndex = 53
+
+local knobCorner2 = Instance.new("UICorner")
+knobCorner2.CornerRadius = UDim.new(1, 0)
+knobCorner2.Parent = ToggleKnob_2
+
+ToggleButton_2.Parent = Frame_3
+ToggleButton_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton_2.BackgroundTransparency = 1
+ToggleButton_2.BorderSizePixel = 0
+ToggleButton_2.Position = UDim2.new(TOGGLE_X_POSITION, 0, 0.5, -12)
+ToggleButton_2.Size = UDim2.new(0, 60, 0, 24)
+ToggleButton_2.Text = ""
+ToggleButton_2.AutoButtonColor = false
+ToggleButton_2.ZIndex = 54
+
+-- Title Text
+TextLabel_3.Parent = Frame
+TextLabel_3.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_3.BackgroundTransparency = 1
+TextLabel_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_3.BorderSizePixel = 3
+TextLabel_3.Position = UDim2.new(0.057, 0, 0, 0)
+TextLabel_3.Size = UDim2.new(0, 297, 0, 30)
+TextLabel_3.Font = Enum.Font.Unknown
+TextLabel_3.Text = "  D A R K Z  S C R I P T"
+TextLabel_3.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_3.TextSize = 14.000
+TextLabel_3.TextTransparency = 0.5
+TextLabel_3.TextXAlignment = Enum.TextXAlignment.Left
+TextLabel_3.ZIndex = 52
+
+-- Minimize Button
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TextButton.BorderColor3 = Color3.fromRGB(50, 50, 50)
+TextButton.BorderSizePixel = 2
+TextButton.Position = UDim2.new(0.82, 0, 0, 0)
+TextButton.Size = UDim2.new(0, 18, 0, 18)
+TextButton.Font = Enum.Font.Unknown
+TextButton.Text = "-"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextSize = 16.000
+TextButton.TextYAlignment = Enum.TextYAlignment.Center
+TextButton.TextXAlignment = Enum.TextXAlignment.Center
+TextButton.ZIndex = 52
+
+-- Close Button
+TextButton_2.Parent = Frame
+TextButton_2.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TextButton_2.BorderColor3 = Color3.fromRGB(50, 50, 50)
+TextButton_2.BorderSizePixel = 2
+TextButton_2.Position = UDim2.new(0.912, 0, 0, 0)
+TextButton_2.Size = UDim2.new(0, 18, 0, 18)
+TextButton_2.Font = Enum.Font.Unknown
+TextButton_2.Text = "x"
+TextButton_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton_2.TextSize = 14.000
+TextButton_2.TextYAlignment = Enum.TextYAlignment.Center
+TextButton_2.TextXAlignment = Enum.TextXAlignment.Center
+TextButton_2.ZIndex = 52
+
+-- Auto Accept Section
+Frame_4.Parent = Frame
+Frame_4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame_4.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame_4.BorderSizePixel = 0
+Frame_4.Position = UDim2.new(0.164, 0, 0.724, 0)
+Frame_4.Size = UDim2.new(0, 225, 0, 44)
+Frame_4.Style = Enum.FrameStyle.DropShadow
+Frame_4.ZIndex = 51
+
+TextLabel_4.Parent = Frame_4
+TextLabel_4.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_4.BackgroundTransparency = 1
+TextLabel_4.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_4.BorderSizePixel = 3
+TextLabel_4.Position = UDim2.new(0.025, 0, 0, 0)
+TextLabel_4.Size = UDim2.new(0, 94, 1, 0)
+TextLabel_4.Font = Enum.Font.Fantasy
+TextLabel_4.Text = "✅ Auto Accept"
+TextLabel_4.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_4.TextSize = 14.000
+TextLabel_4.TextXAlignment = Enum.TextXAlignment.Left
+TextLabel_4.TextTransparency = 0
+TextLabel_4.ZIndex = 52
+
+ToggleSwitch_3.Parent = Frame_4
+ToggleSwitch_3.BackgroundColor3 = Color3.fromRGB(169, 169, 169)
+ToggleSwitch_3.BorderSizePixel = 0
+ToggleSwitch_3.Position = UDim2.new(TOGGLE_X_POSITION, 0, 0.5, -12)
+ToggleSwitch_3.Size = UDim2.new(0, 60, 0, 24)
+ToggleSwitch_3.ZIndex = 52
+
+local switchCorner3 = Instance.new("UICorner")
+switchCorner3.CornerRadius = UDim.new(0, 12)
+switchCorner3.Parent = ToggleSwitch_3
+
+ToggleKnob_3.Parent = ToggleSwitch_3
+ToggleKnob_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleKnob_3.BorderSizePixel = 0
+ToggleKnob_3.Size = UDim2.new(0, 22, 0, 22)
+ToggleKnob_3.Position = UDim2.new(0.05, 0, 0.5, -11)
+ToggleKnob_3.ZIndex = 53
+
+local knobCorner3 = Instance.new("UICorner")
+knobCorner3.CornerRadius = UDim.new(1, 0)
+knobCorner3.Parent = ToggleKnob_3
+
+ToggleButton_3.Parent = Frame_4
+ToggleButton_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton_3.BackgroundTransparency = 1
+ToggleButton_3.BorderSizePixel = 0
+ToggleButton_3.Position = UDim2.new(TOGGLE_X_POSITION, 0, 0.5, -12)
+ToggleButton_3.Size = UDim2.new(0, 60, 0, 24)
+ToggleButton_3.Text = ""
+ToggleButton_3.AutoButtonColor = false
+ToggleButton_3.ZIndex = 54
+
+-- Subtitle Text
+TextLabel_5.Parent = Frame
+TextLabel_5.BackgroundColor3 = Color3.fromRGB(203, 203, 203)
+TextLabel_5.BackgroundTransparency = 1
+TextLabel_5.BorderColor3 = Color3.fromRGB(7, 4, 47)
+TextLabel_5.BorderSizePixel = 0
+TextLabel_5.Position = UDim2.new(0.01, 0, 0.16, 0)
+TextLabel_5.Size = UDim2.new(0, 328, 0, 30)
+TextLabel_5.Font = Enum.Font.FredokaOne
+TextLabel_5.Text = "T  R  A  D  E        S  T  E  A  L  E  R"
+TextLabel_5.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_5.TextSize = 16.000
+TextLabel_5.TextTransparency = 0.5
+TextLabel_5.ZIndex = 52
+
+-- ========== INITIAL LOADING ANIMATION (2 MINUTES with EASING) ==========
+local function runInitialLoading()
+	-- Fade in loading frame
+	local fadeInInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+
+	local fadeInLoading = tweenService:Create(LoadingFrame, fadeInInfo, {BackgroundTransparency = 0})
+	fadeInLoading:Play()
+
+	wait(0.1)
+
+	-- Fade in loading text
+	local fadeInText = tweenService:Create(LoadingText, fadeInInfo, {TextTransparency = 0})
+	fadeInText:Play()
+
+	-- Fade in bar background
+	local fadeInBarBg = tweenService:Create(barBg, fadeInInfo, {BackgroundTransparency = 0})
+	fadeInBarBg:Play()
+
+	wait(0.3)
+
+	-- REAL LOADING BAR ANIMATION (2 MINUTES = 120 seconds)
+	local startTime = tick()
+	local loadingDuration = 120 -- 2 minutes in seconds
+
+	-- Initialize loading bar
+	LoadingBar.Size = UDim2.new(0, 0, 1, 0)
+	LoadingBar.BackgroundColor3 = Color3.fromRGB(76, 175, 80)  -- Bright Green
+	LoadingBar.Visible = true
+
+	-- List of loading messages para sa 2 minutes
+	local loadingMessages = {
+		"Initializing DarkZ Script...",
+		"Loading modules...",
+		"Connecting to server...",
+		"Please wait...",
+		"Almost there...",
+		"Just a moment...",
+		"Finalizing setup...",
+		"DARKZ SCRIPT"
+	}
+
+	local messageIndex = 1
+	local lastMessageChange = tick()
+	local messageInterval = 15 -- Change message every 15 seconds
+
+	-- Continuous update loop para sa smooth na loading bar
+	local connection
+	connection = game:GetService("RunService").Heartbeat:Connect(function()
+		local elapsed = tick() - startTime
+		-- Gumamit ng exponential easing para mabilis sa simula, pabagal ng pabagal
+		-- progress = 1 - (1 - t)^3  (cubic easing - mabilis sa simula, bagal sa dulo)
+		local t = math.min(elapsed / loadingDuration, 1)
+		local progress = 1 - (1 - t)^3  -- Cubic easing: mabilis sa simula, bagal sa dulo
+
+		-- Update loading bar size with easing
+		LoadingBar.Size = UDim2.new(progress, 0, 1, 0)
+
+		-- Change loading message every 15 seconds
+		if tick() - lastMessageChange >= messageInterval then
+			messageIndex = (messageIndex % #loadingMessages) + 1
+			LoadingText.Text = loadingMessages[messageIndex]
+			lastMessageChange = tick()
+		end
+
+		-- Update text based on progress (minsan may special messages)
+		if progress < 0.1 then
+			LoadingText.Text = "Loading DarkZ Script..."
+		elseif progress > 0.95 then
+			LoadingText.Text = "Almost Complete!"
+		end
+
+		-- Stop when done
+		if progress >= 1 then
+			connection:Disconnect()
+
+			LoadingText.Text = "Complete!"
+
+			-- Small delay para makita ang "Complete!" text
+			wait(1)
+
+			-- Fade out loading frame
+			local fadeOutInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
+
+			local fadeOutLoading = tweenService:Create(LoadingFrame, fadeOutInfo, {BackgroundTransparency = 1})
+			fadeOutLoading:Play()
+
+			local fadeOutText = tweenService:Create(LoadingText, fadeOutInfo, {TextTransparency = 1})
+			fadeOutText:Play()
+
+			local fadeOutBarBg = tweenService:Create(barBg, fadeOutInfo, {BackgroundTransparency = 1})
+			fadeOutBarBg:Play()
+
+			wait(0.2)
+
+			-- Show main frame
+			Frame.Visible = true
+
+			-- Remove loading frame
+			wait(0.3)
+			LoadingFrame:Destroy()
+		end
+	end)
+end
+
+-- ========== TOGGLE ACTIVATION FUNCTION (WITH CUSTOM LOADING TIMES and GREEN bar) ==========
+local isLoadingActive = false
+
+local function showToggleLoading(toggleName, callback, loadingTime)
+	if isLoadingActive then
+		return
+	end
+
+	isLoadingActive = true
+
+	ToggleLoadingFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
+	ToggleLoadingFrame.Visible = true
+	ToggleLoadingFrame.BackgroundTransparency = 1
+	ToggleLoadingBar.Size = UDim2.new(0, 0, 1, 0)
+	ToggleLoadingBar.BackgroundColor3 = Color3.fromRGB(76, 175, 80)  -- Bright Green
+	ToggleLoadingBar.Visible = true
+	ToggleLoadingText.Text = "Activating " .. toggleName .. "..."
+	ToggleLoadingText.TextTransparency = 1
+
+	local fadeInInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+
+	tweenService:Create(ToggleLoadingFrame, fadeInInfo, {BackgroundTransparency = 0}):Play()
+	tweenService:Create(ToggleLoadingText, fadeInInfo, {TextTransparency = 0}):Play()
+	tweenService:Create(toggleBarBg, fadeInInfo, {BackgroundTransparency = 0}):Play()
+
+	wait(0.2)
+
+	-- REAL LOADING BAR for toggle activation (GREEN) - with linear progress (walang easing)
+	local startTime = tick()
+
+	-- Continuous update loop para sa smooth na loading bar
+	local connection
+	connection = game:GetService("RunService").Heartbeat:Connect(function()
+		local elapsed = tick() - startTime
+		local progress = math.min(elapsed / loadingTime, 1)
+
+		-- Update loading bar size based on actual elapsed time (linear)
+		ToggleLoadingBar.Size = UDim2.new(progress, 0, 1, 0)
+
+		-- Update text based on progress
+		if loadingTime == 4 then
+			-- For Freeze Trade (4 seconds)
+			if progress < 0.25 then
+				ToggleLoadingText.Text = "Processing Freeze Trade..."
+			elseif progress < 0.5 then
+				ToggleLoadingText.Text = "Almost there..."
+			elseif progress < 0.75 then
+				ToggleLoadingText.Text = "Just a moment..."
+			else
+				ToggleLoadingText.Text = "Finalizing..."
+			end
+		elseif loadingTime == 2 then
+			-- For Auto Ready & Auto Accept (2 seconds)
+			if progress < 0.33 then
+				ToggleLoadingText.Text = "Almost there..."
+			elseif progress < 0.66 then
+				ToggleLoadingText.Text = "Just a moment..."
+			else
+				ToggleLoadingText.Text = "Finalizing..."
+			end
+		end
+
+		-- Stop when done
+		if progress >= 1 then
+			connection:Disconnect()
+
+			-- Execute the callback
+			callback()
+
+			-- Fade out
+			local fadeOutInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
+
+			tweenService:Create(ToggleLoadingFrame, fadeOutInfo, {BackgroundTransparency = 1}):Play()
+			tweenService:Create(ToggleLoadingText, fadeOutInfo, {TextTransparency = 1}):Play()
+			tweenService:Create(toggleBarBg, fadeOutInfo, {BackgroundTransparency = 1}):Play()
+
+			wait(0.2)
+			ToggleLoadingFrame.Visible = false
+
+			isLoadingActive = false
+		end
+	end)
+end
+
+-- ========== TOGGLE FUNCTIONALITY WITH DIFFERENT LOADING TIMES ==========
+local toggleStates = {
+	freezeTrade = false,
+	autoReady = false,
+	autoAccept = false
+}
+
+-- Freeze Trade toggle (4 seconds loading)
+ToggleButton.MouseButton1Click:Connect(function()
+	-- Get exact click position
+	local mousePos = userInputService:GetMouseLocation()
+	createClickEffect(ToggleButton, mousePos.X, mousePos.Y)
+
+	-- Also highlight the toggle switch briefly
+	local originalColor = ToggleSwitch.BackgroundColor3
+	ToggleSwitch.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
+	task.wait(0.1)
+	ToggleSwitch.BackgroundColor3 = originalColor
+
+	if isLoadingActive then return end
+
+	if not toggleStates.freezeTrade then
+		-- Turning ON - show 4-second loading
+		showToggleLoading("Freeze Trade", function()
+			toggleStates.freezeTrade = true
+			ToggleSwitch.BackgroundColor3 = Color3.fromRGB(76, 175, 80)  -- Green
+			ToggleKnob:TweenPosition(UDim2.new(0.58, 0, 0.5, -11), "Out", "Quad", 0.2, true)
+			print("Freeze Trade: ON (4 seconds)")
+		end, 4)  -- 4 seconds loading time
+	else
+		-- Turning OFF - instant
+		toggleStates.freezeTrade = false
+		ToggleSwitch.BackgroundColor3 = Color3.fromRGB(169, 169, 169)  -- Gray
+		ToggleKnob:TweenPosition(UDim2.new(0.05, 0, 0.5, -11), "Out", "Quad", 0.2, true)
+		print("Freeze Trade: OFF")
+	end
+end)
+
+-- Auto Ready toggle (2 seconds loading)
+ToggleButton_2.MouseButton1Click:Connect(function()
+	-- Get exact click position
+	local mousePos = userInputService:GetMouseLocation()
+	createClickEffect(ToggleButton_2, mousePos.X, mousePos.Y)
+
+	-- Also highlight the toggle switch briefly
+	local originalColor = ToggleSwitch_2.BackgroundColor3
+	ToggleSwitch_2.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
+	task.wait(0.1)
+	ToggleSwitch_2.BackgroundColor3 = originalColor
+
+	if isLoadingActive then return end
+
+	if not toggleStates.autoReady then
+		-- Turning ON - show 2-second loading
+		showToggleLoading("Auto Ready", function()
+			toggleStates.autoReady = true
+			ToggleSwitch_2.BackgroundColor3 = Color3.fromRGB(76, 175, 80)
+			ToggleKnob_2:TweenPosition(UDim2.new(0.58, 0, 0.5, -11), "Out", "Quad", 0.2, true)
+			print("Auto Ready: ON (2 seconds)")
+		end, 2)  -- 2 seconds loading time
+	else
+		-- Turning OFF - instant
+		toggleStates.autoReady = false
+		ToggleSwitch_2.BackgroundColor3 = Color3.fromRGB(169, 169, 169)
+		ToggleKnob_2:TweenPosition(UDim2.new(0.05, 0, 0.5, -11), "Out", "Quad", 0.2, true)
+		print("Auto Ready: OFF")
+	end
+end)
+
+-- Auto Accept toggle (2 seconds loading)
+ToggleButton_3.MouseButton1Click:Connect(function()
+	-- Get exact click position
+	local mousePos = userInputService:GetMouseLocation()
+	createClickEffect(ToggleButton_3, mousePos.X, mousePos.Y)
+
+	-- Also highlight the toggle switch briefly
+	local originalColor = ToggleSwitch_3.BackgroundColor3
+	ToggleSwitch_3.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
+	task.wait(0.1)
+	ToggleSwitch_3.BackgroundColor3 = originalColor
+
+	if isLoadingActive then return end
+
+	if not toggleStates.autoAccept then
+		-- Turning ON - show 2-second loading
+		showToggleLoading("Auto Accept", function()
+			toggleStates.autoAccept = true
+			ToggleSwitch_3.BackgroundColor3 = Color3.fromRGB(76, 175, 80)
+			ToggleKnob_3:TweenPosition(UDim2.new(0.58, 0, 0.5, -11), "Out", "Quad", 0.2, true)
+			print("Auto Accept: ON (2 seconds)")
+		end, 2)  -- 2 seconds loading time
+	else
+		-- Turning OFF - instant
+		toggleStates.autoAccept = false
+		ToggleSwitch_3.BackgroundColor3 = Color3.fromRGB(169, 169, 169)
+		ToggleKnob_3:TweenPosition(UDim2.new(0.05, 0, 0.5, -11), "Out", "Quad", 0.2, true)
+		print("Auto Accept: OFF")
+	end
+end)
+
+-- Minimize button with accurate click effect
+TextButton.MouseButton1Click:Connect(function()
+	local mousePos = userInputService:GetMouseLocation()
+	createClickEffect(TextButton, mousePos.X, mousePos.Y)
+
+	if minimized then
+		Frame.Size = originalSize
+		Frame_2.Visible = true
+		Frame_3.Visible = true
+		Frame_4.Visible = true
+		TextLabel_5.Visible = true
+		TextLabel_3.Position = originalTextPosition
+		TextLabel_3.Size = originalTextSize
+		TextButton.Text = "-"
+		minimized = false
+	else
+		originalSize = Frame.Size
+		originalTextPosition = TextLabel_3.Position
+		originalTextSize = TextLabel_3.Size
+
+		Frame_2.Visible = false
+		Frame_3.Visible = false
+		Frame_4.Visible = false
+		TextLabel_5.Visible = false
+
+		Frame.Size = UDim2.new(0, 335, 0, 30)
+		TextLabel_3.Position = UDim2.new(0.057, 0, 0, 0)
+		TextLabel_3.Size = UDim2.new(0, 297, 1, 0)
+
+		TextButton.Text = "□"
+		minimized = true
+	end
+end)
+
+-- Close button with accurate click effect
+TextButton_2.MouseButton1Click:Connect(function()
+	local mousePos = userInputService:GetMouseLocation()
+	createClickEffect(TextButton_2, mousePos.X, mousePos.Y)
+	task.wait(0.2)
+	ScreenGui:Destroy()
+end)
+
+-- Minimize button state
+local minimized = false
+local originalSize = Frame.Size
+local originalTextPosition = TextLabel_3.Position
+local originalTextSize = TextLabel_3.Size
+
+-- Start initial loading
+coroutine.wrap(runInitialLoading)()
+
+print("DarkZ Script GUI loaded successfully! (Initial Loading: 2 minutes with easing)")
